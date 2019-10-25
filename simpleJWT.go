@@ -16,7 +16,7 @@ import (
 func exp() time.Time {
 	seconds, err := strconv.Atoi(os.Getenv("EXPIRY"))
 	if err != nil {
-		println("EXPIRY is either missing or invalid")
+		fmt.Println("EXPIRY is either missing or invalid")
 		os.Exit(1)
 	}
 	return time.Now().Add(time.Second * time.Duration(seconds))
