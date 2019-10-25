@@ -63,6 +63,7 @@ if simpleJWT.ValidateJWT(token) {
 
 - v0.2.0
   - [ ] mass refactor
+  - [ ] first test
 - v0.3.0
   - [ ] refreshing tokens
 - v0.4.0
