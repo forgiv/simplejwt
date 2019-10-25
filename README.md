@@ -66,6 +66,7 @@ if simplejwt.ValidateJWT(token) {
   - [x] first test
 - v0.3.0
   - [ ] refreshing tokens
+  - [ ] change env var names
 - v0.4.0
   - [ ] multiple claims
 
