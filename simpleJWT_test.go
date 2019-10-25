@@ -1,4 +1,4 @@
-package simpleJWT
+package simplejwt
 
 import (
 	"os"
