@@ -16,7 +16,7 @@ However, a couple environment variables are required to get it worked.
 
 Make a claim
 ```go
-claim := &simpleJWT.Claim{}
+claim := &simplejwt.Claim{}
 ```
 
 Optionally you can give your claim some data.
@@ -32,19 +32,19 @@ type User struct {
 }
 user := &User{ "Hiram", "simpleJWT" }
 
-claim := &simpleJWT.Claim{}
+claim := &simplejwt.Claim{}
 claim.Data = user
 // or more simply claim := &Claim{ user }
 ```
 
 Once you have your claim, you can build your JWT.
 ```go
-token := simpleJWT.BuildJWT(claim)
+token := simplejwt.BuildJWT(claim)
 ```
 
 When it's time to verify a token, just use `ValidateJWT`
 ```go
-if simpleJWT.ValidateJWT(token) {
+if simplejwt.ValidateJWT(token) {
   fmt.Println("Yay, we have a valid token!")
 } else {
   fmt.Println("Boo, this token isn't valid!")
