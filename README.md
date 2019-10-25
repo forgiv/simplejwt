@@ -21,7 +21,7 @@ Claim data is an interface so anything goes.
 ```go
 type User struct {
   Username string `json:"username"`
-  password string
+  password string // only exported data is used when creating JWT
 }
 user := &User{ "Hiram", "simpleJWT" }
 
