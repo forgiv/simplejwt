@@ -73,6 +73,7 @@ func validateEXP(encodedPayload string) bool {
 	return time.Now().Before(payload.Exp)
 }
 
+// unmarshalJSON - handles unmarshalling JSON strings to objects
 func unmarshalJSON(jsonString string, item interface{}) {
 	err := json.Unmarshal([]byte(jsonString), item)
 	if err != nil {
