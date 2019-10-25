@@ -22,8 +22,8 @@ func exp() time.Time {
 	return time.Now().Add(time.Second * time.Duration(seconds))
 }
 
-// SECRET - jwt secret for hash
-var SECRET = os.Getenv("SECRET")
+// secret - jwt secret for hash
+var secret = os.Getenv("SECRET")
 
 // Claim - data to be placed in payload
 type Claim struct {
@@ -69,12 +69,15 @@ func buildSignature(encodedBody, secret string) string {
 func validateEXP(encodedPayload string) bool {
 	payload := &payload{}
 	decodedPayload := base64Decode(encodedPayload)
-	err := json.Unmarshal([]byte(decodedPayload), payload)
+	unmarshalJSON(decodedPayload, payload)
+	return time.Now().Before(payload.Exp)
+}
+
+func unmarshalJSON(jsonString string, item interface{}) {
+	err := json.Unmarshal([]byte(jsonString), item)
 	if err != nil {
 		fmt.Printf("Error unmarshalling payload: %s", err)
-		return false
 	}
-	return time.Now().Before(payload.Exp)
 }
 
 // marshalJSON - handles marshalling objects to JSON string
@@ -92,7 +95,7 @@ func BuildJWT(claim *Claim) string {
 	header := &header{"HS256", "JWT"}
 	payload := &payload{claim, exp()}
 	encodedBody := base64Encode(marshalJSON(header)) + "." + base64Encode(marshalJSON(payload))
-	signature := buildSignature(encodedBody, SECRET)
+	signature := buildSignature(encodedBody, secret)
 	return encodedBody + "." + signature
 }
 
@@ -105,5 +108,5 @@ func ValidateJWT(token string) bool {
 	if !validateEXP(parts[1]) {
 		return false
 	}
-	return parts[2] == buildSignature(parts[0]+"."+parts[1], SECRET)
+	return parts[2] == buildSignature(parts[0]+"."+parts[1], secret)
 }
