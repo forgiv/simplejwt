@@ -62,8 +62,8 @@ if simplejwt.ValidateJWT(token) {
 > All versions before version v1.0.0 are volatile
 
 - v0.2.0
-  - [ ] mass refactor
-  - [ ] first test
+  - [x] mass refactor
+  - [x] first test
 - v0.3.0
   - [ ] refreshing tokens
 - v0.4.0
