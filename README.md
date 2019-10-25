@@ -1,9 +1,16 @@
 # Simple JWT
 
-A VERY basic JWT implementation for those that just want a basic HS256 JWT token.  
-The motiviation for this project was too learn about making JWT tokens in Go, and also because the lalternatives are all just a little too complicated when I want a quick and dirty setup.
+A **VERY** basic JWT implementation for those that just want a basic HS256 JWT token.  
+The motiviation for this project was to learn about making JWT tokens in Go, and also because the alternatives are all just a little too complicated when I want a quick and dirty setup.
 
 **You probably shouldn't use this package in production.**
+
+## Requirements
+
+This package doesn't depend on anything other than the standard go library.  
+However, a couple environment variables are required to get it worked.
+- `SECRET` is a random string for generating your hash
+- `EXPIRY` is the number of seconds before a token expires
 
 ## Usage
 
@@ -43,3 +50,21 @@ if simpleJWT.ValidateJWT(token) {
   fmt.Println("Boo, this token isn't valid!")
 }
 ```
+
+## Caveats
+
+- Only supports a single Claim
+- Refreshing isn't handled and must be done manually
+- Required environment variable names are too general and can cause issues
+
+## Roadmap
+
+> All versions before version v1.0.0 are volatile
+
+- v0.2.0
+  - [ ] mass refactor
+- v0.3.0
+  - [ ] refreshing tokens
+- v0.4.0
+  - [ ] multiple claims
+
