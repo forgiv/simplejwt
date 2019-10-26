@@ -7,11 +7,14 @@ import (
 )
 
 func TestToken(t *testing.T) {
-	os.Setenv("SECRET", "afuishfgbuileflai")
-	os.Setenv("EXPIRY", "1")
+	os.Setenv("JWT_SECRET", "afuishfgbuileflai")
+	os.Setenv("JWT_EXPIRY", "1")
 
 	user := &User{"hiram", "password"}
-	token := BuildJWT(&Claim{user})
+	token, err := BuildJWT(&Claim{user})
+	if err != nil {
+		t.Fail()
+	}
 
 	time.Sleep(2)
 
