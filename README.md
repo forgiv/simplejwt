@@ -69,7 +69,7 @@ if simplejwt.ValidateJWT(token) {
   - [x] first test
 - v0.3.0
   - [x] better error handling
-  - [ ] change env var names
+  - [x] change env var names
 - v0.4.0
   - [ ] refreshing tokens
 - v0.5.0
