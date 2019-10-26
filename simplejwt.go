@@ -100,7 +100,6 @@ func marshalJSON(item interface{}) (string, error) {
 func BuildJWT(claim *Claim) (string, error) {
 	header := &header{"HS256", "JWT"}
 	payload := &payload{claim, exp()}
-
 	marshalledHeader, err := marshalJSON(header)
 	if err != nil {
 		return "", err
@@ -109,7 +108,6 @@ func BuildJWT(claim *Claim) (string, error) {
 	if err != nil {
 		return "", err
 	}
-
 	encodedBody := base64Encode(marshalledHeader) + "." + base64Encode(marshalledPayload)
 	signature := buildSignature(encodedBody, secret)
 	return encodedBody + "." + signature, nil
