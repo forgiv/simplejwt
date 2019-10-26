@@ -57,8 +57,8 @@ if simplejwt.ValidateJWT(token) {
 ## Caveats
 
 - Only supports a single Claim
-- Refreshing isn't handled and must be done manually
-~~- Required environment variable names are too general and can cause issues~~
+- Refreshing isn't handled and must be done manually  
+~~Required environment variable names are too general and can cause issues~~
 
 ## Roadmap
 
