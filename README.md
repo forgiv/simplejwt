@@ -39,7 +39,10 @@ claim.Data = user
 
 Once you have your claim, you can build your JWT.
 ```go
-token := simplejwt.BuildJWT(claim)
+token, err := simplejwt.BuildJWT(claim)
+if err != nil {
+  // Handle the error!
+}
 ```
 
 When it's time to verify a token, just use `ValidateJWT`
@@ -65,8 +68,10 @@ if simplejwt.ValidateJWT(token) {
   - [x] mass refactor
   - [x] first test
 - v0.3.0
-  - [ ] refreshing tokens
+  - [x] better error handling
   - [ ] change env var names
 - v0.4.0
+  - [ ] refreshing tokens
+- v0.5.0
   - [ ] multiple claims
 
