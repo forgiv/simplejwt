@@ -14,7 +14,7 @@ import (
 
 // exp - generates expiry time based on expiry env variable
 func exp() time.Time {
-	seconds, err := strconv.Atoi(os.Getenv("EXPIRY"))
+	seconds, err := strconv.Atoi(os.Getenv("JWT_EXPIRY"))
 	if err != nil {
 		fmt.Println("EXPIRY is either missing or invalid")
 		os.Exit(1)
@@ -23,7 +23,7 @@ func exp() time.Time {
 }
 
 // secret - jwt secret for hash
-var secret = os.Getenv("SECRET")
+var secret = os.Getenv("JWT_SECRET")
 
 // Claim - data to be placed in payload
 type Claim struct {
@@ -69,35 +69,50 @@ func buildSignature(encodedBody, secret string) string {
 func validateEXP(encodedPayload string) bool {
 	payload := &payload{}
 	decodedPayload := base64Decode(encodedPayload)
-	unmarshalJSON(decodedPayload, payload)
+	err := unmarshalJSON(decodedPayload, payload)
+	if err != nil {
+		return false
+	}
 	return time.Now().Before(payload.Exp)
 }
 
 // unmarshalJSON - handles unmarshalling JSON strings to objects
-func unmarshalJSON(jsonString string, item interface{}) {
+func unmarshalJSON(jsonString string, item interface{}) error {
 	err := json.Unmarshal([]byte(jsonString), item)
 	if err != nil {
 		fmt.Printf("Error unmarshalling payload: %s", err)
+		return err
 	}
+	return nil
 }
 
 // marshalJSON - handles marshalling objects to JSON string
-func marshalJSON(item interface{}) string {
+func marshalJSON(item interface{}) (string, error) {
 	itemString, err := json.Marshal(item)
 	if err != nil {
 		fmt.Printf("Error marshalling to json: %s\n", err)
-		return ""
+		return "", err
 	}
-	return string(itemString)
+	return string(itemString), nil
 }
 
 // BuildJWT - takes a claim and builds a jwt token
-func BuildJWT(claim *Claim) string {
+func BuildJWT(claim *Claim) (string, error) {
 	header := &header{"HS256", "JWT"}
 	payload := &payload{claim, exp()}
-	encodedBody := base64Encode(marshalJSON(header)) + "." + base64Encode(marshalJSON(payload))
+
+	marshalledHeader, err := marshalJSON(header)
+	if err != nil {
+		return "", err
+	}
+	marshalledPayload, err := marshalJSON(payload)
+	if err != nil {
+		return "", err
+	}
+
+	encodedBody := base64Encode(marshalledHeader) + "." + base64Encode(marshalledPayload)
 	signature := buildSignature(encodedBody, secret)
-	return encodedBody + "." + signature
+	return encodedBody + "." + signature, nil
 }
 
 // ValidateJWT - validates a jwt token
