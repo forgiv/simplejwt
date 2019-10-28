@@ -13,17 +13,25 @@ import (
 )
 
 // exp - generates expiry time based on expiry env variable
+// Defaults to 24 hours if environment variable is not set.
 func exp() time.Time {
 	seconds, err := strconv.Atoi(os.Getenv("JWT_EXPIRY"))
 	if err != nil {
-		fmt.Println("EXPIRY is either missing or invalid")
-		os.Exit(1)
+		seconds = 60 * 60 * 24
 	}
 	return time.Now().Add(time.Second * time.Duration(seconds))
 }
 
 // secret - jwt secret for hash
-var secret = os.Getenv("JWT_SECRET")
+// Exits program if environment variable is not set.
+func secret() string {
+	secret := os.Getenv("JWT_SECRET")
+	if secret == "" {
+		fmt.Println("JWT_SECRET environment variable is either empty or not set.")
+		os.Exit(10)
+	}
+	return secret
+}
 
 // Claim - data to be placed in payload
 type Claim struct {
@@ -109,7 +117,7 @@ func BuildJWT(claim *Claim) (string, error) {
 		return "", err
 	}
 	encodedBody := base64Encode(marshalledHeader) + "." + base64Encode(marshalledPayload)
-	signature := buildSignature(encodedBody, secret)
+	signature := buildSignature(encodedBody, secret())
 	return encodedBody + "." + signature, nil
 }
 
@@ -122,5 +130,5 @@ func ValidateJWT(token string) bool {
 	if !validateEXP(parts[1]) {
 		return false
 	}
-	return parts[2] == buildSignature(parts[0]+"."+parts[1], secret)
+	return parts[2] == buildSignature(parts[0]+"."+parts[1], secret())
 }
