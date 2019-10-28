@@ -1,3 +1,4 @@
+// Package simplejwt provides a simple set of functions for creating and validating HS256 JWT tokens.
 package simplejwt
 
 import (
