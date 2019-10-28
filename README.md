@@ -77,6 +77,13 @@ simplejwt.SecretName = "MY_CUSTOM_SECRET_VARIABLE"
 simplejwt.RefreshName = "MY_CUSTOM_REFRESH_VARIABLE"
 ```
 
+## Misc Knowledge
+
+If the package can't find the expiry or refresh environment variables it falls back to using the defaults while also logging that it's being used. This can get annoying if you plan to use the defaults. In order to suppress these logs, just set the `MuteFallbackLogs` variable to `true`
+```go
+simplejwt.MuteFallbackLogs = true
+```
+
 ## Caveats
 
 - Only supports a single Claim  
