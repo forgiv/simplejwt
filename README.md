@@ -1,4 +1,4 @@
-# Simple JWT
+# Simple JWT [![GoDoc](https://godoc.org/github.com/forgiv/simplejwt?status.svg)](https://godoc.org/github.com/forgiv/simplejwt)
 
 A **VERY** basic JWT implementation for those that just want a basic HS256 JWT token.  
 The motiviation for this project was to learn about making JWT tokens in Go, and also because the alternatives are all just a little too complicated when I want a quick and dirty setup.
