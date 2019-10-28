@@ -3,6 +3,7 @@
 A **VERY** basic JWT implementation for those that just want a basic HS256 JWT token.  
 The motiviation for this project was to learn about making JWT tokens in Go, and also because the alternatives are all just a little too complicated when I want a quick and dirty setup.
 
+**This package is still in an unstable state**
 **You probably shouldn't use this package in production.**
 
 ## Requirements
