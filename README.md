@@ -56,6 +56,13 @@ if simplejwt.ValidateJWT(token) {
 }
 ```
 
+Want to use different environment variables?  
+Set them before you call `BuildJWT` or `ValidateJWT`.
+```go
+simplejwt.ExpiryName = "MY_CUSTOM_EXPIRY_VARIABLE"
+simplejwt.SecretName = "MY_CUSTOM_SECRET_VARIABLE"
+```
+
 ## Caveats
 
 - Only supports a single Claim
