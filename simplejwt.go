@@ -12,26 +12,12 @@ import (
 	"time"
 )
 
-// exp - generates expiry time based on expiry env variable
-// Defaults to 24 hours if environment variable is not set.
-func exp() time.Time {
-	seconds, err := strconv.Atoi(os.Getenv("JWT_EXPIRY"))
-	if err != nil {
-		seconds = 60 * 60 * 24
-	}
-	return time.Now().Add(time.Second * time.Duration(seconds))
-}
-
-// secret - jwt secret for hash
-// Exits program if environment variable is not set.
-func secret() string {
-	secret := os.Getenv("JWT_SECRET")
-	if secret == "" {
-		fmt.Println("JWT_SECRET environment variable is either empty or not set.")
-		os.Exit(10)
-	}
-	return secret
-}
+var (
+	// ExpiryName - name of environment variable used for JWT expiry
+	ExpiryName = "JWT_EXPIRY"
+	// SecretName - name of environment variable use for JWT secret
+	SecretName = "JWT_SECRET"
+)
 
 // Claim - data to be placed in payload
 type Claim struct {
@@ -48,6 +34,27 @@ type header struct {
 type payload struct {
 	*Claim
 	Exp time.Time `json:"exp"`
+}
+
+// exp - generates expiry time based on expiry env variable
+// Defaults to 24 hours if environment variable is not set.
+func exp() time.Time {
+	seconds, err := strconv.Atoi(os.Getenv(ExpiryName))
+	if err != nil {
+		seconds = 60 * 60 * 24
+	}
+	return time.Now().Add(time.Second * time.Duration(seconds))
+}
+
+// secret - jwt secret for hash
+// Exits program if environment variable is not set.
+func secret() string {
+	secret := os.Getenv(SecretName)
+	if secret == "" {
+		fmt.Println("JWT_SECRET environment variable is either empty or not set.")
+		os.Exit(10)
+	}
+	return secret
 }
 
 // base64Encode - encodes string to base64 string
