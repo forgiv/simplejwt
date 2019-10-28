@@ -13,6 +13,8 @@ However, a couple environment variables are required to get it working.
 - `JWT_SECRET` is a random string for generating your hash
 - `JWT_EXPIRY` is the number of seconds before a token expires
   - Defaults to 24 hours if environment variable isn't found
+- `JWT_REFRESH` is the number of seconds after expiration that a token can no longer be refreshed
+  - Defaults to 48 hours after expiry
 
 ## Usage
 
@@ -56,18 +58,30 @@ if simplejwt.ValidateJWT(token) {
 }
 ```
 
+Want to refresh an expired token?  
+`RefreshJWT` will refresh the `expiry` and `issued at` dates of a JWT token.  
+It uses the existing data in the token to create a new token, so if you have new data to put in the token don't rely on a refresh.  
+`RefreshJWT` will return an error if the token cannot be refreshed for any reason.
+```go
+newToken, err := simplejwt.RefreshJWT(oldToken)
+if err != nil {
+  // Handle error
+}
+```
+
 Want to use different environment variables?  
-Set them before you call `BuildJWT` or `ValidateJWT`.
+Set them before you call `BuildJWT`, `ValidateJWT`, `RefreshJWT`.
 ```go
 simplejwt.ExpiryName = "MY_CUSTOM_EXPIRY_VARIABLE"
 simplejwt.SecretName = "MY_CUSTOM_SECRET_VARIABLE"
+simplejwt.RefreshName = "MY_CUSTOM_REFRESH_VARIABLE"
 ```
 
 ## Caveats
 
-- Only supports a single Claim
-- Refreshing isn't handled and must be done manually  
-~~Required environment variable names are too general and can cause issues~~
+- Only supports a single Claim  
+~~Refreshing isn't handled and must be done manually~~  
+~~Required environment variable names are too general and can cause issues~~  
 
 ## Roadmap
 
@@ -80,7 +94,7 @@ simplejwt.SecretName = "MY_CUSTOM_SECRET_VARIABLE"
   - [x] better error handling
   - [x] change env var names
 - v0.4.0
-  - [ ] refreshing tokens
+  - [x] refreshing tokens
 - v0.5.0
   - [ ] multiple claims
 
