@@ -8,9 +8,10 @@ The motiviation for this project was to learn about making JWT tokens in Go, and
 ## Requirements
 
 This package doesn't depend on anything other than the standard go library.  
-However, a couple environment variables are required to get it worked.
-- `SECRET` is a random string for generating your hash
-- `EXPIRY` is the number of seconds before a token expires
+However, a couple environment variables are required to get it working.
+- `JWT_SECRET` is a random string for generating your hash
+- `JWT_EXPIRY` is the number of seconds before a token expires
+  - Defaults to 24 hours if environment variable isn't found
 
 ## Usage
 
