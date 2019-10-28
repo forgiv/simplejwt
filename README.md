@@ -97,4 +97,3 @@ simplejwt.RefreshName = "MY_CUSTOM_REFRESH_VARIABLE"
   - [x] refreshing tokens
 - v0.5.0
   - [ ] multiple claims
-
